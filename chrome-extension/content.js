@@ -50,19 +50,21 @@ function fillForm(data) {
             triggerChange(txtUnidadOrganica);
         }
         
-        // Fecha Inicio (por defecto)
-        const txtFechaInicio = document.getElementById('txtFechaInicio');
-        if (txtFechaInicio) {
-            txtFechaInicio.value = FECHA_INICIO_DEFAULT;
-            triggerChange(txtFechaInicio);
+        // Fechas - Bypass nativo para evadir interceptores (InputMask/React)
+        function fillDateRobust(id, dateStr) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            
+            // Forzar el valor directo en el DOM saltándose los interceptores del plugin
+            const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
+            nativeInputValueSetter.call(el, dateStr);
+            
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+            el.dispatchEvent(new Event('blur', { bubbles: true }));
         }
-        
-        // Fecha Término (por defecto)
-        const txtFechaTermino = document.getElementById('txtFechaTermino');
-        if (txtFechaTermino) {
-            txtFechaTermino.value = FECHA_FIN_DEFAULT;
-            triggerChange(txtFechaTermino);
-        }
+        fillDateRobust('txtFechaInicio', '03/04/2026');
+        fillDateRobust('txtFechaTermino', '31/10/2026');
         
         // Medios de Verificación
         const txtMedioVerificacion = document.getElementById('txtMedioVerificacion');

@@ -126,7 +126,9 @@ btnFill.addEventListener('click', async () => {
         medida: remediacionSeleccionada.medida,
         organo: remediacionSeleccionada.organo,
         medioVerificacion: remediacionSeleccionada.medio_verificacion,
-        comentarios: remediacionSeleccionada.comentarios
+        comentarios: remediacionSeleccionada.comentarios,
+        fechaInicio: remediacionSeleccionada.fecha_inicio,
+        fechaFin: remediacionSeleccionada.fecha_fin
     });
 });
 

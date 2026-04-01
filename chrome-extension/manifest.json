@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
-    "name": "SCI Form Filler",
-    "version": "1.0",
+    "name": "SCI Form Filler (Fix Branch)",
+    "version": "1.1",
     "description": "Rellena formularios de medidas de remediación del SCI",
     "permissions": [
         "activeTab",

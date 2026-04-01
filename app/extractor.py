@@ -79,7 +79,7 @@ class PDFExtractor:
         return limpiar_texto(texto)
 
     def _extraer_tabla(self, page) -> List[Dict[str, Any]]:
-        tables = page.extract_tables()
+        tables = page.extract_tables(table_settings={"text_x_tolerance": 2})
         if not tables:
             return []
 
@@ -87,7 +87,16 @@ class PDFExtractor:
         if len(table) < 2:
             return []
 
-        headers = [h.replace("\n", " ").strip() if h else "" for h in table[0]]
+        # Find the header row dynamically
+        header_idx = 0
+        for i, row in enumerate(table):
+            row_text = " ".join([str(c).upper() for c in row if c])
+            if "DEFICIENCIA" in row_text and "MEDIDA" in row_text:
+                header_idx = i
+                break
+
+        # Process headers
+        headers = [h.replace("\n", " ").strip() if h else "" for h in table[header_idx]]
 
         deficiencia_idx = None
         for i, h in enumerate(headers):
@@ -99,7 +108,7 @@ class PDFExtractor:
         deficiencia_actual = None
         num_fila_secuencial = 0
 
-        for row in table[1:]:
+        for row in table[header_idx + 1:]:
             if not row or not any(row):
                 continue
 

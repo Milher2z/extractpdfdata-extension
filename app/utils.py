@@ -13,7 +13,6 @@ def limpiar_texto(texto: str) -> str:
     texto = texto.strip()
 
     texto = _corregir_problemas_comunes(texto)
-    texto = _agregar_espacios(texto)
 
     return texto
 
